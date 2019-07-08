@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
-  constructor() { }
+searchForm:FormGroup
+currentJustify = 'center';
+  constructor(private fb:FormBuilder) { }
 
   ngOnInit() {
+    this.searchForm=this.fb.group({
+      JourneyType:['1']
+    })
   }
 
+  searchFlight(){
+
+  }
+  
 }
