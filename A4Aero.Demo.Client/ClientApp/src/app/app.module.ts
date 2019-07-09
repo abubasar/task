@@ -15,6 +15,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -41,6 +42,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
    
     BrowserAnimationsModule,
+   
+    BsDatepickerModule.forRoot(),
    
   ],
   providers: [],

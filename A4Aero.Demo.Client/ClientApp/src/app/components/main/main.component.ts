@@ -18,6 +18,8 @@ currentJustify = 'center';
 
 
     $(document).ready(function(){
+
+
       InitSpinners();
       $('body').on('click', 'input[name=TravelClass]', function (event) {
         SetDisplayText();
@@ -124,6 +126,8 @@ currentJustify = 'center';
 	});
     
   });
+
+  
 }
 
 
