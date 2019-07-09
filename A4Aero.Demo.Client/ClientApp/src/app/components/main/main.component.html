@@ -68,6 +68,7 @@ a.primaryBtn {
                             <label class="container_check">
                                 Oneway Trip
                                 <input  type="radio" name="JourneyType" formControlName="JourneyType" value="1">
+                               
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -95,14 +96,14 @@ a.primaryBtn {
         
 
           <div class="row ">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <div class="form-group">
                   <label>From</label>
                 <input class="form-control" type="text" placeholder="From">
                 <!-- <i class="icon_pin_alt"></i> -->
               </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 
                 <div class="form-group">
                     <label>To</label>
@@ -110,22 +111,79 @@ a.primaryBtn {
                   <!-- <i class="icon_pin_alt"></i> -->
                 </div>
               </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <div class="form-group">
                   <label>Departure</label>
-                <input class="form-control" type="text" bsDatepicker
-                [bsConfig]="{ isAnimated: true }"  placeholder="Departure">
+                <input class="form-control" type="text"   placeholder="Departure">
                 <!-- <i class="icon_calendar"></i> -->
               </div>
             </div>
-            <div  class="col-lg-3">
+            <div  class="col-lg-2">
                 <div class="form-group">
                     <label>Return</label>
-                  <input [disabled]="searchForm.value.JourneyType==1||searchForm.value.JourneyType==3" class="form-control" type="text" bsDatepicker [bsConfig]="{ isAnimated: true }" placeholder="Return">
+                  <input [disabled]="searchForm.value.JourneyType==1||searchForm.value.JourneyType==3" class="form-control" type="text" placeholder="Return">
                   <!-- <i class="icon_calendar"></i> -->
                 </div>
               </div>
-    
+           
+
+              <div class="flight_passengerBox col-lg-4 ">
+                <div id="BE_flight_paxInfoBox" class="pax-details ddn-parent flight_passengerBox">
+                    <div class="panel-dropdown">
+                        <a href="#" id="traveller-summary" style="color: #000;padding-top: 3px;">1 Traveller, Economy</a>
+                        <div class="panel-dropdown-content">
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-7">
+                                    <label class="t-spinner-label">Adult</label>
+                                </div>
+                                <div class="col-5 no-letf-padding">
+                                    <input id="flt-people-adult" style="" class="t-spinner text-center" readonly="readonly" type="text" value="1" name="Adults">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-7">
+                                    <label class="t-spinner-label">Child <span>2 - 12 yrs</span></label>
+                                </div>
+                                <div class="col-5 no-letf-padding">
+                                    <input id="flt-people-child" class="t-spinner text-center" readonly="readonly" type="text" value="0" name="Children">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-7">
+                                    <label class="t-spinner-label">Infant <span>Below 2 yrs</span></label>
+                                </div>
+                                <div class="col-5 no-letf-padding">
+                                    <input id="flt-people-infant" class="t-spinner text-center" readonly="readonly" type="text" value="0" name="Infants">
+                                </div>
+                            </div>
+                            <hr style="margin: 0;" />
+                            <div class="row" style="margin-bottom:10px; margin-top:10px;">
+                                <div class="col-6">
+                                    <div class="checkboxes float-left">
+                                        <label class="container_check" style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                                            Economy
+                                            <input type="radio" name="TravelClass" checked="checked" value="Economy" data-txt="Economy">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="checkboxes float-left">
+                                        <label class="container_check" style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                                            Business
+                                            <input type="radio" name="TravelClass" value="Business" data-txt="Business">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
           </div>
          
           </div>
@@ -189,6 +247,12 @@ a.primaryBtn {
                       </div>
                     </div>
           </div> -->
+
+
+
+
+
+
 
           <div class="row">
             <div class="col-lg-12 text-center">

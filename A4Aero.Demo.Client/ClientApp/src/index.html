@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="https://unpkg.com/ngx-bootstrap/datepicker/bs-datepicker.css">
   <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/vendors.css" rel="stylesheet">
+<link href="assets/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
 
   <!-- YOUR CUSTOM CSS -->
   <link href="assets/css/custom.css" rel="stylesheet">
@@ -35,77 +36,14 @@
  
   <!-- COMMON SCRIPTS -->
   <script src="assets/js/jquery-2.2.4.min.js"></script>
+
+ <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.2.5/jquery.bootstrap-touchspin.min.js"></script> -->
   <script src="assets/js/common_scripts.js"></script>
   <script src="assets/js/main.js"></script>
 <script src="assets/validate.js"></script>
+<script src="assets/js/jquery.bootstrap-touchspin.min.js"></script>
 
-<!-- DATEPICKER  -->
-<script>
-$(function() {
-  'use strict';
-  $('input[name="dates"]').daterangepicker({
-    autoUpdateInput: false,
-    locale: {
-      cancelLabel: 'Clear'
-    }
-  });
-  $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-    $(this).val(picker.startDate.format('MM-DD-YY') + ' > ' + picker.endDate.format('MM-DD-YY'));
-  });
-  $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-  });
-});
 
-//.............................................
-
-// Quantity buttons
-function qtySum(){
-    var arr = document.getElementsByName('qtyInput');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-
-    var cardQty = document.querySelector(".qtyTotal");
-    cardQty.innerHTML = tot;
-	} 
-	qtySum();
-
-	$(function() {
-
-	   $(".qtyButtons input").after('<div class="qtyInc"></div>');
-	   $(".qtyButtons input").before('<div class="qtyDec"></div>');
-	   $(".qtyDec, .qtyInc").on("click", function() {
-
-		  var $button = $(this);
-		  var oldValue = $button.parent().find("input").val();
-
-		  if ($button.hasClass('qtyInc')) {
-			 var newVal = parseFloat(oldValue) + 1;
-		  } else {
-			 // don't allow decrementing below zero
-			 if (oldValue > 0) {
-				var newVal = parseFloat(oldValue) - 1;
-			 } else {
-				newVal = 0;
-			 }
-		  }
-
-		  $button.parent().find("input").val(newVal);
-		  qtySum();
-		  $(".qtyTotal").addClass("rotate-x");
-
-	   });
-
-	   function removeAnimation() { $(".qtyTotal").removeClass("rotate-x"); }
-	   const counter = document.querySelector(".qtyTotal");
-	   counter.addEventListener("animationend", removeAnimation);
-
-	});
-</script>
-<script src="assets/js/search-flights.js"></script>
 <!-- INPUT QUANTITY  -->
 <!-- <script src="assets/js/input_qty.js"></script> -->
 </body>

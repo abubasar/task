@@ -1,0 +1,26 @@
+.panel-dropdown {padding: 0;}
+.panel-dropdown a::after {  top: 0px;}
+.panel-dropdown .panel-dropdown-content {top: 50px; }
+.spinner-btn {
+    background-color: #fff;
+    background-image: none;
+    border-radius: 0;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: 1px solid #e6e4e4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    padding: 5px 12px;
+}
+.t-spinner { border: 1px solid #ccc !important; padding: 5px 8px !important;}
+.t-spinner-label {
+    margin-top: 10px;
+    color: rgba(0,0,0,.8);
+    font-weight: bold;
+}
+    .t-spinner-label span {
+        font-size: .70em;
+        margin-left: 5px;
+        text-transform: uppercase;
+        font-weight: normal;
+    }
+.no-letf-padding {padding-left: 0 !important; }

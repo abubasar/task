@@ -13,9 +13,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+
 
 @NgModule({
   declarations: [
@@ -39,9 +39,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ]),
-    BsDatepickerModule.forRoot(),
+   
     BrowserAnimationsModule,
-    TabsModule.forRoot()
    
   ],
   providers: [],
