@@ -95,8 +95,8 @@ position: relative;
 .container_check .checkmark {
     display: inline-block;
     border-radius: 100%;
-    width: 22px;
-    height: 22px;;
+    width: 25px;
+    height: 25px;;
 }
 
 @media (max-width: 768px){
@@ -118,18 +118,23 @@ position: relative;
     left: -425px!important;
     
 }
+
 }
 
 .dsbInfo{
   font-size: 6px;
     color: #ddd;
+  
+}
+.dsb-input{
+position: relative;
 }
 </style>
 <main>
   <section class="hero_single version_2">
     <div class="wrapper">
       <div class="container">
-
+      
         <form [formGroup]="searchForm" (ngSubmit)="searchFlight()" style="padding-top: 0px;">
           <div class="row">
                   <div class="col-lg-12">
@@ -194,12 +199,15 @@ position: relative;
                   
                   <span col-lg-1>
                     <div style="position: relative;">
-                      <a (click)="swap(this.searchForm.value.From,this.searchForm.value.To)"><i style=" z-index: 9999;
-                        color: black;
-                        position: absolute;
-                        cursor:pointer;
-                        top: 19px;
-                        left: -15px;" class="flight icon-exchange"></i></a>
+                      <span ><i (click)="swap(this.searchForm.value.From,this.searchForm.value.To)" style=" z-index: 9999;
+                         color: #065af3;
+                         position: absolute;
+                         cursor: pointer;
+                         width: 0px;
+                         height: 0px;
+                         top: 16px;
+                         left: -14px;" 
+    class="flight icon-exchange"></i></span>
                         
                     </div>
                    
@@ -229,9 +237,10 @@ position: relative;
                           <label>Return</label>
                           <p (click)="switchToReturn()" style="font-size: 12px;
                           color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">Tap to add a return date for bigger discounts</p>
-                        <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control" type="text" bsDatepicker
-                          placeholder="Return" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
+                        <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" bsDatepicker
+                          placeholder="{{dayAfterToday}}" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
                        <!-- [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}"</i> -->
+                       <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()" class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
                       </div>
                     </div>
                  
@@ -239,8 +248,8 @@ position: relative;
                     <div class="flight_passengerBox col-lg-3">
                       <div id="BE_flight_paxInfoBox" class="pax-details ddn-parent flight_passengerBox">
                           <div class="panel-dropdown">
-                              <a href="#" id="traveller-summary"  style="color: #000;padding-top: 3px;">1 Traveller, Economy</a>
-                              
+                              <a href="#"   style="color: #000;padding-top: 3px;">TRAVELLERS & CLASS</a>
+                              <p id="traveller-summary"  style="color: #000;padding-top: 3px;">1 Traveller,Economy</p>
                               <div class="panel-dropdown-content">
                                   <div class="row" style="margin-bottom:10px;">
                                       <div class="col-7">
@@ -296,6 +305,8 @@ position: relative;
       
                 </div>
           </div>
+
+         
          
           </div>
         </div>
@@ -308,7 +319,11 @@ position: relative;
             </div>
           </div>
           <!-- /row -->
-        </form>
+      </form>
+      
+      
+     
+      
      
       </div>
     </div>

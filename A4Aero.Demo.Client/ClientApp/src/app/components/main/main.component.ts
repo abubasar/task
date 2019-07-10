@@ -13,6 +13,7 @@ currentJustify = 'center';
   constructor(private fb:FormBuilder,private datePipe: DatePipe) { 
     }
   today = this.datePipe.transform(new Date(),"dd MMM yyyy");
+  dayAfterToday=this.datePipe.transform(new Date().setDate(new Date().getDate()+1),"dd MMM yyyy");
   ngOnInit() {
     this.searchForm=this.fb.group({
       JourneyType:['1'],
@@ -161,5 +162,8 @@ currentJustify = 'center';
 
     switchToReturn(){
       this.searchForm.get('JourneyType').setValue('2');
+    }
+    baktToOneWay(){
+      this.searchForm.get('JourneyType').setValue('1');
     }
 }

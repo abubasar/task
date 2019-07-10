@@ -1,6 +1,12 @@
-.panel-dropdown {padding: 0;}
+.panel-dropdown {padding: 0;
+text-align:initial;
+}
 .panel-dropdown a::after {  top: 0px;}
-.panel-dropdown .panel-dropdown-content {top: 50px; }
+.panel-dropdown .panel-dropdown-content {top: 81px;
+    box-shadow: 3px 5px 22px rgba(0, 0, 0, 0.75);
+    padding-bottom: 0px;
+    height: 245px;
+    width: 323px; }
 .spinner-btn {
     background-color: #fff;
     background-image: none;
@@ -24,3 +30,17 @@
         font-weight: normal;
     }
 .no-letf-padding {padding-left: 0 !important; }
+
+.returnCross{
+    color: darkblue;
+    position: absolute;
+    top: 1px;
+    right: -13px;
+    z-index: 1;
+    cursor: pointer;
+    width: 19px;
+    height: 20px;
+    background-position: -145px -59px;
+    display: inline-block;
+    border-radius: 100%;
+}

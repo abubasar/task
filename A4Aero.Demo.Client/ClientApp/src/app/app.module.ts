@@ -20,6 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
    
     BrowserAnimationsModule,
    
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+   
     
 
    
