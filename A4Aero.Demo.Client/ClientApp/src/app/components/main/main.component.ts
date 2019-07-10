@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'app-main',
@@ -9,36 +10,20 @@ declare var $: any;
 export class MainComponent implements OnInit {
 searchForm:FormGroup
 currentJustify = 'center';
-  constructor(private fb:FormBuilder) { }
-
+  constructor(private fb:FormBuilder,private datePipe: DatePipe) { 
+    }
+  today = this.datePipe.transform(new Date(),"dd MMM yyyy");
   ngOnInit() {
     this.searchForm=this.fb.group({
-      JourneyType:['1']
+      JourneyType:['1'],
+      From:['Dhaka,Shahjal...'],
+      To:['Jedda,King Abd...'],
+      Adults:[1]
     })
-
-
-    $(document).ready(function(){
-
-
-      InitSpinners();
-      $('body').on('click', 'input[name=TravelClass]', function (event) {
-        SetDisplayText();
-    });
-
-      $('body').on('click', '.flt-adt-spinner-btn', function (event) {
-
-        $("#flt-people-child").val("0")
-        $("#flt-people-infant").val("0")
-        ReInitSpinner();
+//...................Travellers Touchspin
+    $(document).ready(()=>{
     
-        SetDisplayText();
-    });
-
-      $('body').on('click', '.flt-child-spinner-btn', function (event) {
-        SetDisplayText();
-    });
-    
-    function InitSpinners() {
+      let InitSpinners=() =>{
         var mx = 9;
         var adt = parseInt($("#flt-people-adult").val());
     
@@ -64,19 +49,44 @@ currentJustify = 'center';
             buttonup_class: "btn spinner-btn flt-child-spinner-btn"
         });
     }
+
+      InitSpinners();
+
+      $('body').on('click', 'input[name=TravelClass]',  (event)=> {
+        SetDisplayText();
+    });
+
+      $('body').on('click', '.flt-adt-spinner-btn',  (event)=> {
+
+        $("#flt-people-child").val("0")
+        $("#flt-people-infant").val("0")
+        ReInitSpinner();
     
-    function ReInitSpinner() {
+        SetDisplayText();
+    });
+
+      $('body').on('click', '.flt-child-spinner-btn', (event)=> {
+        SetDisplayText();
+    });
+    
+    
+    
+    let ReInitSpinner=()=> {
         var adt = parseInt($("#flt-people-adult").val());
         var mx = 9 - adt;
     
         $("#flt-people-child").trigger("touchspin.updatesettings", { max: mx });
         $("#flt-people-infant").trigger("touchspin.updatesettings", { max: adt });
     }
-    function SetDisplayText() {
+    let SetDisplayText=()=> {
       var a = parseInt($("#flt-people-adult").val());
       var c = parseInt($("#flt-people-child").val());
       var i = parseInt($("#flt-people-infant").val());
-  
+
+       
+       this.searchForm.get('Adults').setValue(a);
+       console.log(this.searchForm.value.Adults);
+      
       var t = a + c + i;
       var txt = t + " Traveller";
       if (t > 1) {
@@ -92,7 +102,7 @@ currentJustify = 'center';
 
 
   // Panel Dropdown
-  function close_panel_dropdown() {
+  let close_panel_dropdown=()=> {
 		$('.panel-dropdown').removeClass("active");
     }
     $('.panel-dropdown a').on('click', function(e) {
@@ -108,18 +118,18 @@ currentJustify = 'center';
     // Closes dropdown on click outside the conatainer
 	var mouse_is_inside = false;
 
-	$('.panel-dropdown').hover(function(){
+	$('.panel-dropdown').hover(()=>{
 	    mouse_is_inside=true;
 	}, function(){
 	    mouse_is_inside=false;
 	});
 
-	$("body").mouseup(function(){
+	$("body").mouseup(()=>{
 	    if(! mouse_is_inside) close_panel_dropdown();
 	});
 	
 	/* Dropdown user logged */
-	$('.dropdown-user').hover(function () {
+	$('.dropdown-user').hover( ()=> {
 		$(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn(300);
 	}, function () {
 		$(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut(300);
@@ -133,7 +143,23 @@ currentJustify = 'center';
 
 
   searchFlight(){
-
+    
   }
   
+
+  swap(from,to){
+    this.searchForm.get('From').setValue(to);
+    this.searchForm.get('To').setValue(from);
+  }
+
+  setDestinationNull(){
+      this.searchForm.get('From').setValue('');
+    }
+    setArrivalNull(){
+      this.searchForm.get('To').setValue('');
+    }
+
+    switchToReturn(){
+      this.searchForm.get('JourneyType').setValue('2');
+    }
 }
