@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { FlightService } from 'src/app/services/flight.service';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
+import { Observable } from 'rxjs';
 declare var $: any;
 @Component({
   selector: 'app-main',
@@ -8,12 +11,17 @@ declare var $: any;
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  minJourneyDate:Date
+  minReturnDate:Date
 searchForm:FormGroup
 currentJustify = 'center';
-  constructor(private fb:FormBuilder,private datePipe: DatePipe) { 
+  constructor(private fb:FormBuilder,private datePipe: DatePipe,private flightService:FlightService) { 
+    this.minJourneyDate=new Date()
+    this.minReturnDate=new Date()
+    this.minReturnDate.setDate(this.minJourneyDate.getDate() + 2);
     }
   today = this.datePipe.transform(new Date(),"dd MMM yyyy");
-  dayAfterToday=this.datePipe.transform(new Date().setDate(new Date().getDate()+1),"dd MMM yyyy");
+  dayAfterTomorrow=this.datePipe.transform(new Date().setDate(new Date().getDate()+2),"dd MMM yyyy");
   ngOnInit() {
     this.searchForm=this.fb.group({
       JourneyType:['1'],
@@ -21,6 +29,8 @@ currentJustify = 'center';
       To:['Jedda,King Abd...'],
       Adults:[1]
     })
+
+    this.getFlights();
 //...................Travellers Touchspin
     $(document).ready(()=>{
     
@@ -146,8 +156,32 @@ currentJustify = 'center';
   searchFlight(){
     
   }
+
+  //......autocomplete...................
+  data:any[]
+  keyword='Value'
+  getFlights(){
+   return this.flightService.getFlights().subscribe(res=>{
+     console.log(res.AirportList);
+     this.data=res.AirportList;
+   })
+  }
+  destinationFlight={}
+  arrivalFlight={}
+  onSelectDestination(event: TypeaheadMatch): void {
+    this.destinationFlight = event.item;
+    console.log(this.destinationFlight);
+  }
+
+  onSelectArrival(event: TypeaheadMatch): void {
+    this.arrivalFlight = event.item;
+    console.log(this.arrivalFlight);
+  }
   
 
+
+
+//.....................
   swap(from,to){
     this.searchForm.get('From').setValue(to);
     this.searchForm.get('To').setValue(from);

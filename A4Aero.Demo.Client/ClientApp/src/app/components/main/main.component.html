@@ -175,6 +175,7 @@ position: relative;
                                 <label class="container_check">
                                     Multi city
                                     <input  type="radio" name="JourneyType" formControlName="JourneyType" value="3">
+                          
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
@@ -191,12 +192,18 @@ position: relative;
                     <div class="form-group">
                         <label for="From">From</label>
                       
-                      <input (click)="setDestinationNull()" class="form-control" formControlName="From" value="India" name="From" type="text" placeholder="Flying From">
+                      <input (click)="setDestinationNull()" [typeahead]="data"
+                       typeaheadOptionField="Value"
+                       isAnimated="true"
+                       [typeaheadScrollable]="true"
+                       [typeaheadOptionsInScrollableView]="7"
+                       (typeaheadOnSelect)="onSelectDestination($event)"
+                       class="form-control" formControlName="From" value="India" name="From" type="text" placeholder="Flying From">
                      
                     </div>
                    
                   </div>
-                  
+
                   <span col-lg-1>
                     <div style="position: relative;">
                       <span ><i (click)="swap(this.searchForm.value.From,this.searchForm.value.To)" style=" z-index: 9999;
@@ -216,7 +223,12 @@ position: relative;
                       
                       <div class="form-group">
                           <label>To</label>
-                        <input (click)="setArrivalNull()" class="form-control" type="text" name="To" formControlName="To" placeholder="Flying To" value="India">
+                        <input [typeahead]="data"
+                        typeaheadOptionField="Value"
+                        isAnimated="true"
+                        [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="7"
+                        (typeaheadOnSelect)="onSelectArrival($event)" (click)="setArrivalNull()" class="form-control" type="text" name="To" formControlName="To" placeholder="Flying To" value="India">
                         <!-- <i class="icon_pin_alt"></i> -->
                         
                       </div>
@@ -227,9 +239,9 @@ position: relative;
                   <div class="col-lg-2 dsb-form-border">
                     <div class="form-group">
                         <label>Departure</label>
-                      <input class="form-control" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" type="text" bsDatepicker
-                        placeholder="{{today}}">
-                      <!-- [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
+                      <input class="form-control"  type="text" 
+                        placeholder="{{today}}" bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
+                      <!-- bsDatepicker [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
                     </div>
                   </div>
                   <div  class="col-lg-2 dsb-form-border">
@@ -237,9 +249,9 @@ position: relative;
                           <label>Return</label>
                           <p (click)="switchToReturn()" style="font-size: 12px;
                           color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">Tap to add a return date for bigger discounts</p>
-                        <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" bsDatepicker
-                          placeholder="{{dayAfterToday}}" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
-                       <!-- [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}"</i> -->
+                        <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" 
+                          placeholder="{{dayAfterTomorrow}}" bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" >
+                       <!-- bsDatepicker [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
                        <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()" class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
                       </div>
                     </div>
