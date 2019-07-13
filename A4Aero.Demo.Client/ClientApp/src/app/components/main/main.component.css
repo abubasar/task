@@ -44,3 +44,16 @@ text-align:initial;
     display: inline-block;
     border-radius: 100%;
 }
+
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+     background-color: #f1f1f1; 
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f1f1f1;
+}

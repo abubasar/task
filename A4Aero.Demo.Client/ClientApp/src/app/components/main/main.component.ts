@@ -11,6 +11,7 @@ declare var $: any;
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  OriginDestinationInformation:any[]
   minJourneyDate:Date
   minReturnDate:Date
 searchForm:FormGroup
@@ -24,14 +25,33 @@ currentJustify = 'center';
   dayAfterTomorrow=this.datePipe.transform(new Date().setDate(new Date().getDate()+2),"dd MMM yyyy");
   ngOnInit() {
     this.searchForm=this.fb.group({
-      JourneyType:['1'],
-      From:['Dhaka,Shahjal...'],
-      To:['Jedda,King Abd...'],
-      Adults:[1]
+      JourneyType:1,
+      OriginDestinationInformation: this.fb.group({
+        SequenceNumber: 0,
+        OriginLocationCode: this.destinationFlight.Code,
+        DestinationLocationCode: this.arrivalFlight.Code,
+        OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
+        DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
+        DepartureDateTime: ['2019-07-01T00:00:00'],
+        ReturnDateTime: ['2019-07-10T00:00:00'],
+        OriginCity:this.destinationFlight.City,
+        DestinationCity: this.arrivalFlight.City,
+        OriginAirport: this.destinationFlight.Value,
+        DestinationAirport:this.arrivalFlight.Value
+      }),
+      Adults:[1],
+      PeopleTxt: ['1 Travellers, Economy'],
+      Children: 0,
+      Infants: 0,
+      TravelClass: ['Economy'],
+      IsLocalSearch: false,
+      SeatRequested: 0,
+      ProviderId: 1,
+      Currency: ['BDT']
     })
 
     this.getFlights();
-//...................Travellers Touchspin
+//...................Travellers Touchspin.....................
     $(document).ready(()=>{
     
       let InitSpinners=() =>{
@@ -96,6 +116,8 @@ currentJustify = 'center';
 
        
        this.searchForm.get('Adults').setValue(a);
+       this.searchForm.get('Children').setValue(c);
+       this.searchForm.get('Infants').setValue(i);
        console.log(this.searchForm.value.Adults);
       
       var t = a + c + i;
@@ -106,7 +128,7 @@ currentJustify = 'center';
   
       var cType = $("input[name=TravelClass]:checked").val();
       txt += ", " + cType;
-  
+      this.searchForm.get('PeopleTxt').setValue(txt);
       $("#traveller-summary").html(txt);
   } 
 
@@ -151,10 +173,13 @@ currentJustify = 'center';
   
 }
 
-
+//..................Travellers Touchspin end....................
 
   searchFlight(){
-    
+    console.log(this.searchForm.value)
+    this.flightService.getSearchKey(this.searchForm.value).subscribe(res=>{
+      console.log(res);
+    })
   }
 
   //......autocomplete...................
@@ -166,8 +191,18 @@ currentJustify = 'center';
      this.data=res.AirportList;
    })
   }
-  destinationFlight={}
-  arrivalFlight={}
+  destinationFlight={
+    Value:'Zia Intl Airport',
+    City:'Dhaka',
+    Code:'DAC',
+    
+  }
+  arrivalFlight={
+    Value:'Newyork Arpt',
+    City:'Newyork',
+    Code:'JFK',
+    
+  }
   onSelectDestination(event: TypeaheadMatch): void {
     this.destinationFlight = event.item;
     console.log(this.destinationFlight);
@@ -183,15 +218,21 @@ currentJustify = 'center';
 
 //.....................
   swap(from,to){
-    this.searchForm.get('From').setValue(to);
-    this.searchForm.get('To').setValue(from);
+  this.destinationFlight=from;
+  this.arrivalFlight=to;
+  let temp=this.destinationFlight;
+  this.destinationFlight=this.arrivalFlight;
+  this.arrivalFlight=temp;
+  this.searchForm.get('').setValue(this.destinationFlight.City);
+  this.searchForm.get('OriginDestinationInformation[0].DestinationCity').setValue(this.arrivalFlight.City);
+   
   }
 
   setDestinationNull(){
-      this.searchForm.get('From').setValue('');
+      this.searchForm.get('OriginCity').setValue('');
     }
     setArrivalNull(){
-      this.searchForm.get('To').setValue('');
+      this.searchForm.get(this.searchForm.value.OriginDestinationInformation['OriginCity']).setValue('');
     }
 
     switchToReturn(){

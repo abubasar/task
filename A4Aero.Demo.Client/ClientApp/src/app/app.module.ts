@@ -20,6 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpConfigInterceptor } from './httpconfig.interceptor';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { CustomTypeaheadDirective } from './directives/custom-typeahead.directive';
 
 
 
@@ -32,7 +33,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     FetchDataComponent,
     HeaderComponent,
     FooterComponent,
-    MainComponent
+    MainComponent,
+    CustomTypeaheadDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

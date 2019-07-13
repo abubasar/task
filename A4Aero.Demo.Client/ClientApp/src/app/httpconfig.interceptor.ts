@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpInterceptor}from '@angular/common/http';
+import {HttpInterceptor, HttpHeaders}from '@angular/common/http';
 
 
 @Injectable({
@@ -8,7 +8,7 @@ import {HttpInterceptor}from '@angular/common/http';
 export class HttpConfigInterceptor implements HttpInterceptor {
 
   constructor( ) { }
-
+ 
   intercept(req,next){
     let tokenizedReq=req.clone({
       setHeaders:{
