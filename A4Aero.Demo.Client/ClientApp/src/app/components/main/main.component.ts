@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { FlightService } from 'src/app/services/flight.service';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
@@ -11,7 +11,24 @@ declare var $: any;
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  OriginDestinationInformation:any[]
+  flightInfo = {
+    OriginDestinationInformation: [
+      {
+        SequenceNumber: 0,
+        OriginLocationCode: '',
+        DestinationLocationCode: '',
+        OriginLocation: '',
+        DestinationLocation: '',
+        DepartureDateTime: '',
+        ReturnDateTime: '',
+        OriginCity:'',
+        DestinationCity: '',
+        OriginAirport: '',
+        DestinationAirport:''
+      }
+    ]
+  }
+  
   minJourneyDate:Date
   minReturnDate:Date
 searchForm:FormGroup
@@ -25,20 +42,9 @@ currentJustify = 'center';
   dayAfterTomorrow=this.datePipe.transform(new Date().setDate(new Date().getDate()+2),"dd MMM yyyy");
   ngOnInit() {
     this.searchForm=this.fb.group({
-      JourneyType:1,
-      OriginDestinationInformation: this.fb.group({
-        SequenceNumber: 0,
-        OriginLocationCode: this.destinationFlight.Code,
-        DestinationLocationCode: this.arrivalFlight.Code,
-        OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
-        DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
-        DepartureDateTime: ['2019-07-01T00:00:00'],
-        ReturnDateTime: ['2019-07-10T00:00:00'],
-        OriginCity:this.destinationFlight.City,
-        DestinationCity: this.arrivalFlight.City,
-        OriginAirport: this.destinationFlight.Value,
-        DestinationAirport:this.arrivalFlight.Value
-      }),
+      JourneyType:['1'],
+      OriginDestinationInformation: this.fb.array([
+        ]),
       Adults:[1],
       PeopleTxt: ['1 Travellers, Economy'],
       Children: 0,
@@ -49,7 +55,7 @@ currentJustify = 'center';
       ProviderId: 1,
       Currency: ['BDT']
     })
-
+   this.setOriginDestinationInformation()
     this.getFlights();
 //...................Travellers Touchspin.....................
     $(document).ready(()=>{
@@ -174,10 +180,15 @@ currentJustify = 'center';
 }
 
 //..................Travellers Touchspin end....................
-
+searchID;
   searchFlight(){
     console.log(this.searchForm.value)
     this.flightService.getSearchKey(this.searchForm.value).subscribe(res=>{
+      console.log(res);
+      this.searchID=res.Searchkey
+      console.log(this.searchID)
+    });
+    this.flightService.searchFlights(this.searchID,this.searchForm.value).subscribe(res=>{
       console.log(res);
     })
   }
@@ -203,13 +214,21 @@ currentJustify = 'center';
     Code:'JFK',
     
   }
-  onSelectDestination(event: TypeaheadMatch): void {
+  onSelectDestination(event: TypeaheadMatch,i): void {
     this.destinationFlight = event.item;
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').setValue(this.destinationFlight.City);
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginLocationCode').setValue(this.destinationFlight.Code);
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginLocation').setValue(this.destinationFlight.City+' ('+this.destinationFlight.Code+')');
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginAirport').setValue(this.destinationFlight.Value);
     console.log(this.destinationFlight);
   }
 
-  onSelectArrival(event: TypeaheadMatch): void {
+  onSelectArrival(event: TypeaheadMatch,i): void {
     this.arrivalFlight = event.item;
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').setValue(this.arrivalFlight.City);
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationLocationCode').setValue(this.arrivalFlight.Code);
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationLocation').setValue(this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')');
+    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationAirport').setValue(this.arrivalFlight.Value);
     console.log(this.arrivalFlight);
   }
   
@@ -217,22 +236,23 @@ currentJustify = 'center';
 
 
 //.....................
-  swap(from,to){
+  swap(from,to,i){
   this.destinationFlight=from;
   this.arrivalFlight=to;
   let temp=this.destinationFlight;
   this.destinationFlight=this.arrivalFlight;
   this.arrivalFlight=temp;
-  this.searchForm.get('').setValue(this.destinationFlight.City);
-  this.searchForm.get('OriginDestinationInformation[0].DestinationCity').setValue(this.arrivalFlight.City);
+  ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').setValue(this.destinationFlight.City);
+  ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').setValue(this.arrivalFlight.City);
+
    
   }
 
-  setDestinationNull(){
-      this.searchForm.get('OriginCity').setValue('');
+  setDestinationNull(i){
+   ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').setValue('');
     }
-    setArrivalNull(){
-      this.searchForm.get(this.searchForm.value.OriginDestinationInformation['OriginCity']).setValue('');
+    setArrivalNull(i){
+      ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').setValue('');
     }
 
     switchToReturn(){
@@ -241,4 +261,23 @@ currentJustify = 'center';
     baktToOneWay(){
       this.searchForm.get('JourneyType').setValue('1');
     }
+
+    setOriginDestinationInformation() {
+      let control = <FormArray>this.searchForm.controls.OriginDestinationInformation;
+      this.flightInfo.OriginDestinationInformation.forEach(x =>{
+          control.push(this.fb.group({
+            SequenceNumber: 0,
+            OriginLocationCode: this.destinationFlight.Code,
+            DestinationLocationCode: this.arrivalFlight.Code,
+            OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
+            DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
+            DepartureDateTime: this.today,
+            ReturnDateTime: this.dayAfterTomorrow,
+            OriginCity:this.destinationFlight.City,
+            DestinationCity: this.arrivalFlight.City,
+            OriginAirport: this.destinationFlight.Value,
+            DestinationAirport:this.arrivalFlight.Value
+          }))
+        })
+      }
 }

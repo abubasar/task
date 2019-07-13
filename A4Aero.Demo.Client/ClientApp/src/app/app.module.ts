@@ -18,7 +18,6 @@ import { MainComponent } from './components/main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpConfigInterceptor } from './httpconfig.interceptor';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { CustomTypeaheadDirective } from './directives/custom-typeahead.directive';
 
@@ -51,7 +50,6 @@ import { CustomTypeaheadDirective } from './directives/custom-typeahead.directiv
     BrowserAnimationsModule,
    
     BsDatepickerModule.forRoot(),
-    AutocompleteLibModule,
     TypeaheadModule.forRoot(),
     
     

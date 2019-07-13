@@ -90,7 +90,7 @@ position: relative;
 }
 .dsb-form-border{
    border-right: 1px solid #ddd;
-   bottom: -9px;
+  
 }
 
 .container_check .checkmark {
@@ -254,118 +254,124 @@ position: relative;
             </div>
         
 
-          <div class="dsb-form-m">
-              <div  class="row">
-                  <div formGroupName="OriginDestinationInformation" class=" row col-lg-10" style="margin-bottom: 17px;">
+          <div class="dsb-form-m row">
+             
+            
+              <div formArrayName="OriginDestinationInformation" class="row col-lg-10">
+                <div class="row col-lg-12" *ngFor="let mySearchForm of searchForm.get('OriginDestinationInformation').controls; let i=index">
+                  <div [formGroupName]="i" class="row col-lg-12">
                     <div class="col-lg-3 dsb-form-border">
-                        <div class="form-group">
-                            <label for="From">From</label>
-                            <ng-template #typeaheadItemTemplate let-model="item">
-                              <div class="makeFlex hrtlCenter">
-                                <div class="calc60">
-                                  <p class="font14 appendBottom5 blackText">{{model.City}}, {{model.Country}}</p>
-                                  <p class="font12 greyText appendBottom3"> {{model.Value}}</p>
-                                </div>
-                                <div class="pushRight font14 lightGreyText latoBold">{{model.Code}}</div>
+                      <div class="form-group">
+                          <label for="From">From</label>
+                          <ng-template #typeaheadItemTemplate let-model="item">
+                            <div class="makeFlex hrtlCenter">
+                              <div class="calc60">
+                                <p class="font14 appendBottom5 blackText">{{model.City}}, {{model.Country}}</p>
+                                <p class="font12 greyText appendBottom3"> {{model.Value}}</p>
                               </div>
-                            </ng-template>
-                   <input type="hidden" name="OriginDestinationInformation[0].OriginLocationCode" formControlName="OriginLocationCode" />
-                  <input type="hidden" name="OriginDestinationInformation[0].OriginLocation" formControlName="OriginLocation" />
-                  <input type="hidden" name="OriginDestinationInformation[0].OriginAirport" formControlName="OriginAirport" />
-                  <input type="hidden" name="OriginDestinationInformation[0].DestinationLocationCode" formControlName="DestinationLocationCode" />
-                  <input type="hidden" name="OriginDestinationInformation[0].DestinationLocation" formControlName="DestinationLocation" />
-                  <input type="hidden" name="OriginDestinationInformation[0].DestinationAirport" formControlName="DestinationAirport" />
-                          <input type="hidden" name="SequenceNumber" formControlName="SequenceNumber" />
-                          <input style="position: absolute;" (click)="setDestinationNull()" [customTypeahead]="data"
-                          [typeaheadSearchFields]="['Code', 'Value','Country','City']"
-                           [typeaheadItemTemplate]="typeaheadItemTemplate"
-                           isAnimated="true"
-                           typeaheadOptionField="City"
-                           [typeaheadScrollable]="true"
-                           [typeaheadOptionsInScrollableView]="4"
-                           (typeaheadOnSelect)="onSelectDestination($event)"
-                           class="form-control" formControlName="OriginCity" name="OriginDestinationInformation[0].OriginCity" type="text" placeholder="Flying From">
-                           <p class="code" style="
-                           position: relative;
-                           color: #d5d5d5;
-                           top: 33px;
-                           font-size: 12px;">
-                             <span class="truncate airPortName">{{destinationFlight.Code}}, {{destinationFlight.Value}}</span>
-                          </p>
-                        </div>
-                       <!--typeaheadOptionField="Value"-->
+                              <div class="pushRight font14 lightGreyText latoBold">{{model.Code}}</div>
+                            </div>
+                          </ng-template>
+                 <input type="hidden" name="OriginDestinationInformation[0].OriginLocationCode" formControlName="OriginLocationCode" />
+                <input type="hidden" name="OriginDestinationInformation[0].OriginLocation" formControlName="OriginLocation" />
+                <input type="hidden" name="OriginDestinationInformation[0].OriginAirport" formControlName="OriginAirport" />
+                <input type="hidden" name="OriginDestinationInformation[0].DestinationLocationCode" formControlName="DestinationLocationCode" />
+                <input type="hidden" name="OriginDestinationInformation[0].DestinationLocation" formControlName="DestinationLocation" />
+                <input type="hidden" name="OriginDestinationInformation[0].DestinationAirport" formControlName="DestinationAirport" />
+                        <input type="hidden" name="SequenceNumber" formControlName="SequenceNumber" />
+                        <input style="position: absolute;" (click)="setDestinationNull(i)" [customTypeahead]="data"
+                        [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                         [typeaheadItemTemplate]="typeaheadItemTemplate"
+                         isAnimated="true"
+                         typeaheadOptionField="City"
+                         [typeaheadScrollable]="true"
+                         [typeaheadOptionsInScrollableView]="4"
+                         (typeaheadOnSelect)="onSelectDestination($event,i)"
+                         class="form-control" formControlName="OriginCity"  type="text" placeholder="Flying From">
+                         <p class="code" style="
+                         position: relative;
+                         color: #d5d5d5;
+                         top: 33px;
+                         font-size: 12px;">
+                           <span class="truncate airPortName">{{destinationFlight.Code}}, {{destinationFlight.Value}}</span>
+                        </p>
                       </div>
-    
-                      <span col-lg-1>
-                        <div style="position: relative;">
-                          <span ><i (click)="swap(this.destinationFlight,this.arrivalFlight)" style=" z-index: 9999;
-                             color: #065af3;
-                             position: absolute;
-                             cursor: pointer;
-                             width: 0px;
-                             height: 0px;
-                             top: 16px;
-                             left: -14px;" 
-        class="flight icon-exchange"></i></span>
-                            
-                        </div>
-                       
-                      </span>
-                      <div class="col-lg-2 dsb-form-border">
+                     <!--typeaheadOptionField="Value"-->
+                    </div>
+  
+                    <span col-lg-1>
+                      <div style="position: relative;">
+                        <span ><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
+                           color: #065af3;
+                           position: absolute;
+                           cursor: pointer;
+                           width: 0px;
+                           height: 0px;
+                           top: 16px;
+                           left: -14px;" 
+      class="flight icon-exchange"></i></span>
                           
-                          <div class="form-group">
-                              <label>To</label>
-                            <input style="position: absolute;" [customTypeahead]="data"
-                            [typeaheadSearchFields]="['Code', 'Value','Country','City']"
-                            [typeaheadItemTemplate]="typeaheadItemTemplate"
-                            isAnimated="true"
-                            typeaheadOptionField="City"
-                            [typeaheadScrollable]="true"
-                            [typeaheadOptionsInScrollableView]="4"
-                            (typeaheadOnSelect)="onSelectArrival($event)" (click)="setArrivalNull()" class="form-control" type="text" name="OriginDestinationInformation[0].DestinationCity" formControlName="DestinationCity" placeholder="Flying To">
-                            <!-- <i class="icon_pin_alt"></i> -->
-                            <p class="code" style="
-                            position: relative;
-                            color: #d5d5d5;
-                            top: 33px;
-                            font-size: 12px;">
-                             <span class="truncate airPortName">{{arrivalFlight.Code}}, {{arrivalFlight.Value}}</span>
-                           </p>
-                          </div>
-                          <span ><p style="color: red;font-size: 8px;">From & To airports cannot be the same</p></span>
-                        </div>
-                      <div class="col-lg-3 dsb-form-border">
+                      </div>
+                     
+                    </span>
+                    <div class="col-lg-2 dsb-form-border">
+                        
                         <div class="form-group">
-                            <label>Departure</label>
-                          <input class="form-control"  type="text" formControlName="DepartureDateTime"
-                            placeholder="{{today}}">
-                          <!-- bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
+                            <label>To</label>
+                          <input style="position: absolute;" [customTypeahead]="data"
+                          [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                          [typeaheadItemTemplate]="typeaheadItemTemplate"
+                          isAnimated="true"
+                          typeaheadOptionField="City"
+                          [typeaheadScrollable]="true"
+                          [typeaheadOptionsInScrollableView]="4"
+                          (typeaheadOnSelect)="onSelectArrival($event,i)" (click)="setArrivalNull(i)" class="form-control" type="text" formControlName="DestinationCity" placeholder="Flying To">
+                          <!-- <i class="icon_pin_alt"></i> -->
+                          <p class="code" style="
+                          position: relative;
+                          color: #d5d5d5;
+                          top: 33px;
+                          font-size: 12px;">
+                           <span class="truncate airPortName">{{arrivalFlight.Code}}, {{arrivalFlight.Value}}</span>
+                         </p>
+                        </div>
+                        <span ><p style="color: red;font-size: 8px;">From & To airports cannot be the same</p></span>
+                      </div>
+                    <div class="col-lg-3 dsb-form-border">
+                      <div class="form-group">
+                          <label>Departure</label>
+                        <input class="form-control"  type="text" formControlName="DepartureDateTime"
+                          placeholder="{{today}}" bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
+                        <!-- bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
+                      </div>
+                    </div>
+                    <div  class="col-lg-3 dsb-form-border">
+                        <div class="form-group ">
+                            <label>Return</label>
+                            <p (click)="switchToReturn()" style="font-size: 12px;
+                            color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">Tap to add a return date for bigger discounts</p>
+                          <input formControlName="ReturnDateTime"  *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" 
+                            placeholder="{{dayAfterTomorrow}}" >
+                         <!-- bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
+                         <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()" class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
                         </div>
                       </div>
-                      <div  class="col-lg-3 dsb-form-border">
-                          <div class="form-group ">
-                              <label>Return</label>
-                              <p (click)="switchToReturn()" style="font-size: 12px;
-                              color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">Tap to add a return date for bigger discounts</p>
-                            <input formControlName="ReturnDateTime"  *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" 
-                              placeholder="{{dayAfterTomorrow}}" >
-                           <!-- bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
-                           <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()" class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
-                          </div>
-                        </div>
+                  </div>
+                </div>
               </div>
               <div class="flight_passengerBox col-lg-2">
                   <div id="BE_flight_paxInfoBox" class="pax-details ddn-parent flight_passengerBox">
                       <div class="panel-dropdown">
-                          <a href="#"   style="color: #000;padding-top: 3px;">TRAVELLERS & CLASS</a>
+                          <a href="#"   style="color: #000;">TRAVELLERS & CLASS</a>
                           <p id="traveller-summary"  style="color: #000;padding-top: 3px;">1 Traveller,Economy</p>
-                          <input type="hidden" readonly="readonly" type="text" name="PeopleTxt" formControlName="PeopleTxt">
+                        
                           <div class="panel-dropdown-content">
                               <div class="row" style="margin-bottom:10px;">
                                   <div class="col-7">
                                       <label class="t-spinner-label">Adult</label>
                                   </div>
                                   <div class="col-5 no-letf-padding">
+                                     
                                       <input id="flt-people-adult" style="" class="t-spinner text-center" readonly="readonly" type="text" value="1" name="Adults" formControlName="Adults">
                                   </div>
                               </div>
@@ -419,12 +425,13 @@ position: relative;
 
          
          
-          </div>
+        
         </div>
          
           <div class="row">
             <div class="col-lg-12 text-center">
               <div class="dsb-search">
+                  <input type="hidden" formControlName="PeopleTxt">
                   <input type="hidden" name="IsLocalSearch" formControlName="IsLocalSearch" />
                   <input type="hidden" name="SeatRequested" formControlName="SeatRequested" />
                   <input type="hidden" name="ProviderId" formControlName="ProviderId" />

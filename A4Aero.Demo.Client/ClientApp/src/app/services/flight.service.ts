@@ -21,8 +21,17 @@ export class FlightService {
    }
    
    getSearchKey(searchRequest:any):Observable<any>{
-     console.log(searchRequest);
+     searchRequest.JourneyType=parseInt(searchRequest.JourneyType);
+     
 return this.http.post<any>('http://api.trip.xyz/flights/searchkey',searchRequest);
    }
+
+   searchFlights(searchId,searchRequest:any):Observable<any>{
+    searchRequest.JourneyType=parseInt(searchRequest.JourneyType);
+    searchRequest.SearchId=searchId;
+    console.log(searchRequest);
+    return this.http.post<any>('http://api.trip.xyz/flights/search',searchRequest);
+  }
+
 
 }
