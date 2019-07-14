@@ -20,6 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpConfigInterceptor } from './httpconfig.interceptor';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { CustomTypeaheadDirective } from './directives/custom-typeahead.directive';
+import { SearchFeedComponent } from './components/search-feed/search-feed.component';
 
 
 
@@ -33,7 +34,8 @@ import { CustomTypeaheadDirective } from './directives/custom-typeahead.directiv
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    CustomTypeaheadDirective
+    CustomTypeaheadDirective,
+    SearchFeedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,6 +45,7 @@ import { CustomTypeaheadDirective } from './directives/custom-typeahead.directiv
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent, pathMatch: 'full' },
+      {path:'search',component:SearchFeedComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ]),

@@ -90,7 +90,7 @@ position: relative;
 }
 .dsb-form-border{
    border-right: 1px solid #ddd;
-  
+   padding-bottom: 16px;
 }
 
 .container_check .checkmark {
@@ -109,6 +109,7 @@ position: relative;
 }
 .dsb-form-border[_ngcontent-c3] {
     border-bottom: 1px solid #ddd;
+    
 }
 .custom-search-input-2 i {
     padding-right: 10px;
@@ -243,7 +244,7 @@ position: relative;
                             <div class="checkboxes float-left">
                                 <label class="container_check">
                                     Multi city
-                                    <input  type="radio" name="JourneyType" formControlName="JourneyType" value="3">
+                                    <input (click)="addNewFlight()" type="radio" name="JourneyType" formControlName="JourneyType" value="3">
                           
                                     <span class="checkmark"></span>
                                 </label>
@@ -263,6 +264,7 @@ position: relative;
                     <div class="col-lg-3 dsb-form-border">
                       <div class="form-group">
                           <label for="From">From</label>
+                          <span *ngIf="validateOriginCity(i)"><p style="color: red;font-size:7px;">please Fill up this field</p></span>
                           <ng-template #typeaheadItemTemplate let-model="item">
                             <div class="makeFlex hrtlCenter">
                               <div class="calc60">
@@ -314,10 +316,12 @@ position: relative;
                       </div>
                      
                     </span>
-                    <div class="col-lg-2 dsb-form-border">
+                    <div class="col-lg-3 dsb-form-border">
                         
                         <div class="form-group">
                             <label>To</label>
+                            <span *ngIf="validateDestinationCity(i)"><p style="color: red;font-size:7px;">please Fill up this field</p></span>
+                            <span *ngIf="FromToNotSame(i)"><p style="color: red;font-size:7px;">From and To Airport can not be the same</p></span>
                           <input style="position: absolute;" [customTypeahead]="data"
                           [typeaheadSearchFields]="['Code', 'Value','Country','City']"
                           [typeaheadItemTemplate]="typeaheadItemTemplate"
@@ -334,13 +338,14 @@ position: relative;
                           font-size: 12px;">
                            <span class="truncate airPortName">{{arrivalFlight.Code}}, {{arrivalFlight.Value}}</span>
                          </p>
+                         
                         </div>
-                        <span ><p style="color: red;font-size: 8px;">From & To airports cannot be the same</p></span>
+                       
                       </div>
-                    <div class="col-lg-3 dsb-form-border">
+                    <div class="col-lg-2 dsb-form-border">
                       <div class="form-group">
                           <label>Departure</label>
-                        <input class="form-control"  type="text" formControlName="DepartureDateTime"
+                        <input class="form-control"  type="text" formControlName="DepartureDateTime" 
                           placeholder="{{today}}" bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}">
                         <!-- bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
                       </div>
@@ -351,7 +356,7 @@ position: relative;
                             <p (click)="switchToReturn()" style="font-size: 12px;
                             color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">Tap to add a return date for bigger discounts</p>
                           <input formControlName="ReturnDateTime"  *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3" class="form-control dsb-input" type="text" 
-                            placeholder="{{dayAfterTomorrow}}" >
+                            placeholder="{{dayAfterTomorrow}}" bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" >
                          <!-- bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
                          <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()" class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
                         </div>

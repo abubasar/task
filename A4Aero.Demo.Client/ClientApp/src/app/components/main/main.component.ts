@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { FlightService } from 'src/app/services/flight.service';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
@@ -38,8 +38,8 @@ currentJustify = 'center';
     this.minReturnDate=new Date()
     this.minReturnDate.setDate(this.minJourneyDate.getDate() + 2);
     }
-  today = this.datePipe.transform(new Date(),"dd MMM yyyy");
-  dayAfterTomorrow=this.datePipe.transform(new Date().setDate(new Date().getDate()+2),"dd MMM yyyy");
+  today = this.datePipe.transform(new Date(),"dd MMM yy");
+  dayAfterTomorrow=this.datePipe.transform(new Date().setDate(new Date().getDate()+2),"dd MMM yy");
   ngOnInit() {
     this.searchForm=this.fb.group({
       JourneyType:['1'],
@@ -184,15 +184,16 @@ searchID;
   searchFlight(){
     console.log(this.searchForm.value)
     this.flightService.getSearchKey(this.searchForm.value).subscribe(res=>{
-      console.log(res);
-      this.searchID=res.Searchkey
-      console.log(this.searchID)
+      this.getSearchFeed(res.Searchkey);
     });
-    this.flightService.searchFlights(this.searchID,this.searchForm.value).subscribe(res=>{
+    
+  }
+
+  getSearchFeed(searchID){
+    this.flightService.searchFlights(searchID,this.searchForm.value).subscribe(res=>{
       console.log(res);
     })
   }
-
   //......autocomplete...................
   data:any[]
   keyword='Value'
@@ -232,8 +233,32 @@ searchID;
     console.log(this.arrivalFlight);
   }
   
+validateOriginCity(i){
+  return (<FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').hasError('required') &&
+  (<FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('originCity').touched
+  
+}
+validateDestinationCity(i){
+  return (<FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').hasError('required') &&
+  (<FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').touched
+}
 
-
+addNewFlight() {
+  let control = <FormArray>this.searchForm.controls.OriginDestinationInformation;
+      this.flightInfo.OriginDestinationInformation.forEach(x =>{
+          control.push(this.fb.group({
+            OriginLocationCode: this.destinationFlight.Code,
+            DestinationLocationCode: this.arrivalFlight.Code,
+            OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
+            DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
+            DepartureDateTime:[''],
+            OriginCity:[this.destinationFlight.City,Validators.required],
+            DestinationCity: [this.arrivalFlight.City,Validators.required],
+            OriginAirport: this.destinationFlight.Value,
+            DestinationAirport:this.arrivalFlight.Value
+          }))
+        })
+}
 
 //.....................
   swap(from,to,i){
@@ -245,9 +270,13 @@ searchID;
   ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').setValue(this.destinationFlight.City);
   ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').setValue(this.arrivalFlight.City);
 
-   
   }
-
+FromToNotSame(i){
+ 
+ return ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').value== ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').value &&
+   ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').value!='' &&
+   ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('DestinationCity').value!='';
+}
   setDestinationNull(i){
    ( <FormArray>this.searchForm.get('OriginDestinationInformation')).at(i).get('OriginCity').setValue('');
     }
@@ -271,10 +300,10 @@ searchID;
             DestinationLocationCode: this.arrivalFlight.Code,
             OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
             DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
-            DepartureDateTime: this.today,
-            ReturnDateTime: this.dayAfterTomorrow,
-            OriginCity:this.destinationFlight.City,
-            DestinationCity: this.arrivalFlight.City,
+            DepartureDateTime:[''],
+            ReturnDateTime: [''],
+            OriginCity:[this.destinationFlight.City,Validators.required],
+            DestinationCity: [this.arrivalFlight.City,Validators.required],
             OriginAirport: this.destinationFlight.Value,
             DestinationAirport:this.arrivalFlight.Value
           }))
