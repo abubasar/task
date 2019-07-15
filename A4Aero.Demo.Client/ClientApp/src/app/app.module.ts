@@ -21,6 +21,8 @@ import { HttpConfigInterceptor } from './httpconfig.interceptor';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { CustomTypeaheadDirective } from './directives/custom-typeahead.directive';
 import { SearchFeedComponent } from './components/search-feed/search-feed.component';
+import { FlightComponent } from './components/flight/flight.component';
+import { StateService } from './services/state.service';
 
 
 
@@ -35,7 +37,8 @@ import { SearchFeedComponent } from './components/search-feed/search-feed.compon
     FooterComponent,
     MainComponent,
     CustomTypeaheadDirective,
-    SearchFeedComponent
+    SearchFeedComponent,
+    FlightComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,6 +69,7 @@ import { SearchFeedComponent } from './components/search-feed/search-feed.compon
   ],
   providers: [
     DatePipe,
+    StateService,
     {
       provide:HTTP_INTERCEPTORS,
       useClass:HttpConfigInterceptor,

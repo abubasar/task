@@ -1,47 +1,116 @@
-<div>
-  <div class="row">
+
+<style>
+.dsb1 .dsb2 label{
+ color: #518DC6;
+}
+
+</style>
+<div class="container-fluid dsb1" style="margin-top: 60px;background: #0B223C;">
+  <div class="row dsb2">
     <div class=" row col-lg-3">
        <div class="col-lg-6">
          <label>Type Here</label>
-          <select class="form-control">
-            <option value=""></option>
-            <option value="1">One Way</option>
-            <option value="2">Round Trip</option>
-            <option value="3">Multi City</option>
+          <select [(ngModel)]="selectedValue" class="form-control" name="selectedValue">
+            <option *ngFor="let c of journeyTypes" [ngValue]="c.JourneyType">{{c.name}}</option>
           </select>
        </div>
        <div class="col-lg-6">
          <label>From</label>
-          <input type="text" class="form-control" value="Dhaka" name="From">
+          <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].OriginCity}}" name="From" >
        </div>
     </div>
     <div class="row col-lg-7">
        <div class="col-lg-1">
-         
+          <div style="position: relative;">
+              <span><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
+               color: #065af3;
+               position: absolute;
+               cursor: pointer;
+               width: 0px;
+               height: 0px;
+               top: 38px;
+               left: 5px;" class="flight icon-exchange"></i></span>
+
+            </div>
        </div>
        <div class="col-lg-2">
          <label>To</label>
-          <input type="text" class="form-control" value="Rajshahi">
+          <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DestinationCity}}" name="To">
        </div>
        <div class="col-lg-3">
          <label>Depart</label>
-         <input type="text" class="form-control" value="1st Aug'19">
+         <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DepartureDateTime}}">
        </div>
        <div class="col-lg-3">
           <label>Return</label>
-          <input type="text" class="form-control" value="1st Aug'19">
+          <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].ReturnDateTime}}">
        </div>
        <div class="col-lg-3">
           <label>Passengers & Class</label>
-          <input type="text" class="form-control" value="1 Adult, Economy">
+          <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.PeopleTxt}}">
        </div>
     </div>
     <div class="row col-lg-2">
       <div class="col-lg-12">
-          <input type="button" class="btn btn-primary" value="Search">
+             <div style="margin-bottom: 31px;"></div>
+            <input type="button" class="btn btn-primary" value="Search">
+       
+          
       </div>
        
     </div>
   </div>
 </div>
+
+
+
+<div class="container" style="margin-top: 25px;">
+  <div class="row">
+      <div class="col-lg-2" style="background: #518DC6;">
+         <label>Filter Search</label>
+      </div>
+      <div class="col-lg-1">
+
+      </div>
+      <div class="row col-lg-9" style="background: #518DC6;">
+          <div class="col-lg-3">
+              <label>Sort By:</label>
+          </div>
+          <div class="col-lg-2">
+              <label>Departure</label>
+          </div>
+          <div class="col-lg-2">
+              <label>Duration</label>
+          </div>
+          <div class="col-lg-2">
+               <label>Arrival</label>
+          </div>
+          <div class="col-lg-3">
+            <label>Price</label>
+          </div>
+      </div>
+
+  </div>
+
+</div>
+
+
+<div class="container" style="margin-top: 25px; margin-bottom: 120px;">
+    <div class="row">
+        <div class="col-lg-2" style="background: #518DC6;">
+         
+        </div>
+        <div class="col-lg-1">
+  
+        </div>
+        <div class="col-lg-9">
+          <app-flight [AllItineraries]="searchResult.Results.SearchRequest.AllGroupedIternaries"></app-flight>
+        </div>
+        
+    </div>
+  
+  </div>
+
+
+
 
