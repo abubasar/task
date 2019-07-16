@@ -103,13 +103,60 @@
         <div class="col-lg-1">
   
         </div>
-        <div class="col-lg-9">
-          <app-flight [AllItineraries]="searchResult.Results.SearchRequest.AllGroupedIternaries"></app-flight>
+        <div *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries; let i=index;">
+        <div *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions" class="row col-lg-9">
+        
+        <div class="col-lg-6" style="background: #E5E5E5;">
+                <h4 style="float: left;">{{groupItinerary.AirlineName}}</h4>
         </div>
+    <div class="col-lg-6" style="background: #E5E5E5;">
+      <button class="btn btn-primary" style="float: right;">Select</button>
+    </div>
+    
+  
+  <div class="row">
+  <div *ngFor="let option of itinerary.GroupedOriginDestinations" class="row col-lg-12">
+     
+      <div class="col-lg-3">
+          <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+          <p>{{option.DepartureCity}}</p>
+      </div>
+      <div class="col-lg-3">
+          <p>{{option.JourneyDuration | myTime}}</p>
+          <hr/>
+          <p style="color: #4B8AC8;">{{option.Stops}} Stop</p>
+      </div>
+      <div class="col-lg-3">
+           <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+           <p>{{option.ArrivalCity}}</p>
+      </div>
+      <div class="col-lg-3">
+        <h5>{{groupItinerary.Currency}}{{groupItinerary.Price}}</h5>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="border-top: 1px solid #ddd;">
+      <div class="col-lg-3">
+          <a><i class="flight icon-flight" ></i> Itinerary</a>
+      </div>
+      <div class="col-lg-3">
+          <a><i class="flight icon-box" ></i>Fare Details</a>
+      </div>
+      <div class="col-lg-3">
+          <a><i class="flight icon-tag-3" ></i>Fare Rules</a>
+      </div>
+      <div class="col-lg-3">
+           <a><i class="flight icon-bag" ></i>Baggage Info</a>
+      </div>
+      
+  </div>
+  </div>
+</div>   
+</div>
         
     </div>
   
-  </div>
+  
 
 
 

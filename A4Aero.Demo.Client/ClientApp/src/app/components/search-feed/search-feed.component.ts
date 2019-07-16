@@ -13,8 +13,10 @@ searchResult:any;
 
   ngOnInit() {
 this.searchResult=this.stateService.searchResult;
-console.log(this.searchResult);
+//console.log(this.searchResult);
+console.log(this.searchResult.Results.AllGroupedIternaries);
 this.stateService.searchResult=undefined;
+
   }
   selectedValue=2
   journeyTypes = [

@@ -14,6 +14,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -23,6 +24,7 @@ import { CustomTypeaheadDirective } from './directives/custom-typeahead.directiv
 import { SearchFeedComponent } from './components/search-feed/search-feed.component';
 import { FlightComponent } from './components/flight/flight.component';
 import { StateService } from './services/state.service';
+import { MyTimePipe } from './pipes/my-time.pipe';
 
 
 
@@ -38,7 +40,8 @@ import { StateService } from './services/state.service';
     MainComponent,
     CustomTypeaheadDirective,
     SearchFeedComponent,
-    FlightComponent
+    FlightComponent,
+    MyTimePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,15 +60,8 @@ import { StateService } from './services/state.service';
    
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
-    
-    
-   
-   
-    
+    CollapseModule.forRoot()
 
-   
-    
-   
   ],
   providers: [
     DatePipe,
